@@ -71,9 +71,9 @@ function Game() {
   }, [enemy_hand]);
   return (
     <>
-      <h1>{player_hand}</h1>
-      <h1>{enemy_hand}</h1>
-      <h1>hi</h1>
+      <>
+        <h1>hi</h1>
+      </>
     </>
   );
 }
