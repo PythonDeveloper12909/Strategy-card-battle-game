@@ -1,7 +1,7 @@
 import "./Game.css";
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { motion } from "motion/react";
+import { DOMVisualElement, motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 const useGameStore = create((set, get) => ({
   player: { hp: 500 },
@@ -30,8 +30,8 @@ const useGameStore = create((set, get) => ({
     { hellhound: { hp: 20, attack: 20, defense: 11 } },
     { souleater: { hp: 17, attack: 27, defense: 6 } },
   ],
-  playerhand: new Set(),
-  enemyhand: new Set(),
+  playerhand: [],
+  enemyhand: [],
   enemydiscard: [],
   playerdiscard: [],
   enemycard: {},
@@ -39,22 +39,32 @@ const useGameStore = create((set, get) => ({
   turn: "player",
   deck_to_hand_player: () => {
     const { playerdeck, playerhand } = get();
-    if (playerhand.size < 3) {
-      set((state) => {
-        const newset = new Set(state.playerhand);
-        newset.add(playerdeck[Math.floor(Math.random() * playerdeck.length)]);
-        return { playerhand: newset };
-      });
+    const randomchar = Math.floor(Math.random() * playerdeck.length);
+    if (playerhand.length < 3) {
+      set((state) => ({
+        playerhand: state.playerhand.some(
+          (e) => Object.keys(e)[0] === Object.keys(playerdeck[randomchar])[0],
+        )
+          ? state.playerhand.filter(
+              (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
+            )
+          : [...state.playerhand, playerdeck[randomchar]],
+      }));
     }
   },
   deck_to_hand_enemy: () => {
     const { enemydeck, enemyhand } = get();
-    if (enemyhand.size < 3) {
-      set((state) => {
-        const newset = new Set(state.enemyhand);
-        newset.add(enemydeck[Math.floor(Math.random() * enemydeck.length)]);
-        return { enemyhand: newset };
-      });
+    const randomchar = Math.floor(Math.random() * enemydeck.length);
+    if (enemyhand.length < 3) {
+      set((state) => ({
+        enemyhand: state.enemyhand.some(
+          (e) => Object.keys(e)[0] === Object.keys(enemydeck[randomchar])[0],
+        )
+          ? state.enemyhand.filter(
+              (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
+            )
+          : [...state.enemyhand, enemydeck[randomchar]],
+      }));
     }
   },
 }));
@@ -69,12 +79,6 @@ function Game() {
   useEffect(() => {
     call_enemy();
   }, [enemy_hand]);
-  return (
-    <>
-      <>
-        <h1>hi</h1>
-      </>
-    </>
-  );
+  console.log(player_hand);
 }
 export default Game;
