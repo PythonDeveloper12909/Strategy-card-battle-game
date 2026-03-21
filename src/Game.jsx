@@ -12,7 +12,7 @@ const useGameStore = create((set, get) => ({
     { emberlash: { attack: 25, defense: 6, hp: 70 } },
     { swiftshot: { attack: 50, defense: 30, hp: 10 } },
     { hexblade: { attack: 200, defense: 50, hp: 200 } },
-    { ghoststep: { attack: 40, defense: 5 } },
+    { ghoststep: { attack: 40, defense: 5, hp: 50 } },
     { ravanger: { attack: 100, defense: 45, hp: 50 } },
     { nightshade: { attack: 30, defense: 12, hp: 30 } },
     { stoneguard: { attack: 5, defense: 200, hp: 50 } },
@@ -46,8 +46,8 @@ const useGameStore = create((set, get) => ({
           (e) => Object.keys(e)[0] === Object.keys(playerdeck[randomchar])[0],
         )
           ? state.playerhand.filter(
-              (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
-            )
+            (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
+          )
           : [...state.playerhand, playerdeck[randomchar]],
       }));
     }
@@ -61,8 +61,8 @@ const useGameStore = create((set, get) => ({
           (e) => Object.keys(e)[0] === Object.keys(enemydeck[randomchar])[0],
         )
           ? state.enemyhand.filter(
-              (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
-            )
+            (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
+          )
           : [...state.enemyhand, enemydeck[randomchar]],
       }));
     }
@@ -79,6 +79,19 @@ function Game() {
   useEffect(() => {
     call_enemy();
   }, [enemy_hand]);
-  console.log(player_hand);
+  return (
+    <>
+      {player_hand.map((e) => (
+        <>
+          <div className=''>
+            <h1 className="text-red-500 text-2xl">{Object.keys(e)[0]}</h1>
+            <h2 className="text-red-500 text-2xl">atk:{e[Object.keys(e)[0]].attack}</h2>
+            <h2 className="text-red-500 text-2xl">def:{e[Object.keys(e)[0]].defense}</h2>
+            <h2 className="text-red-500 text-2xl">hp:{e[Object.keys(e)[0]].hp}</h2>
+          </div>
+        </>
+      ))}
+    </>
+  );
 }
 export default Game;
