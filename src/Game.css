@@ -15,3 +15,42 @@ body {
       background-repeat: no-repeat;  
       background-attachment: fixed; 
     }
+h1{
+    font-family: 'Montserrat', sans-serif;
+}
+h2{
+    font-family: 'Inter', sans-serif;
+}
+.card {
+  width: 280px;
+  background-color: #064e3b; /* Deep Emerald background */
+  
+  /* 1. The Golden Gradient Border */
+  border: 5px solid;
+  border-image-source: linear-gradient(
+    45deg, 
+    #bf953f, /* Dark Gold */
+    #fcf6ba, /* Light Gold/Highlight */
+    #b38728, /* Medium Gold */
+    #fbf5b7, /* Light Gold */
+    #aa771c  /* Shadow Gold */
+  );
+  border-image-slice: 1;
+
+  /* 2. Outer Glow to make it pop */
+  box-shadow: 0 0 15px rgba(191, 149, 63, 0.4), 0 10px 20px rgba(0,0,0,0.6);
+  
+  border-radius: 1px; /* Note: border-image doesn't support large border-radius well */
+  overflow: hidden;
+}
+
+/* 3. Add an Inner "Shine" line */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

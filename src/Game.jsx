@@ -3,12 +3,14 @@ import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { DOMVisualElement, motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
+import goblinimg from "./assets/goblin.png";
+import ironclad from "./assets/ironclad.png";
 const useGameStore = create((set, get) => ({
   player: { hp: 500 },
   enemy: { hp: 500 },
   playerdeck: [
-    { goblin: { attack: 10, defense: 3, hp: 50 } },
-    { ironclad: { attack: 20, defense: 22, hp: 100 } },
+    { goblin: { attack: 10, defense: 3, hp: 50, img: goblinimg } },
+    { ironclad: { attack: 20, defense: 22, hp: 100, img: ironclad } },
     { emberlash: { attack: 25, defense: 6, hp: 70 } },
     { swiftshot: { attack: 50, defense: 30, hp: 10 } },
     { hexblade: { attack: 200, defense: 50, hp: 200 } },
@@ -46,8 +48,8 @@ const useGameStore = create((set, get) => ({
           (e) => Object.keys(e)[0] === Object.keys(playerdeck[randomchar])[0],
         )
           ? state.playerhand.filter(
-            (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
-          )
+              (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
+            )
           : [...state.playerhand, playerdeck[randomchar]],
       }));
     }
@@ -61,8 +63,8 @@ const useGameStore = create((set, get) => ({
           (e) => Object.keys(e)[0] === Object.keys(enemydeck[randomchar])[0],
         )
           ? state.enemyhand.filter(
-            (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
-          )
+              (e) => Object.keys(e)[0] !== Object.keys(e)[randomchar],
+            )
           : [...state.enemyhand, enemydeck[randomchar]],
       }));
     }
@@ -73,24 +75,37 @@ function Game() {
   const call_enemy = useGameStore((s) => s.deck_to_hand_enemy);
   const player_hand = useGameStore((s) => s.playerhand);
   const enemy_hand = useGameStore((s) => s.enemyhand);
+  const player_deck = useGameStore((s) => s.playerdeck);
+  const enemy_deck = useGameStore((s) => s.enemydeck);
   useEffect(() => {
     call_player();
   }, [player_hand]);
   useEffect(() => {
     call_enemy();
   }, [enemy_hand]);
+
   return (
     <>
-      {player_hand.map((e) => (
-        <>
-          <div className=''>
-            <h1 className="text-red-500 text-2xl">{Object.keys(e)[0]}</h1>
-            <h2 className="text-red-500 text-2xl">atk:{e[Object.keys(e)[0]].attack}</h2>
-            <h2 className="text-red-500 text-2xl">def:{e[Object.keys(e)[0]].defense}</h2>
-            <h2 className="text-red-500 text-2xl">hp:{e[Object.keys(e)[0]].hp}</h2>
-          </div>
-        </>
-      ))}
+      <div>
+        {player_hand.map((e) => (
+          <>
+            <div className="card w-50 border-amber-500 flex flex-col items-center border-5">
+              <img src={e[Object.keys(e)[0]].img} className="w-60" />
+              <h1 className="text-amber-200 text-3xl bg-yellow-700 text-center rounded-xl">
+                {Object.keys(e)[0].toLocaleUpperCase()}
+              </h1>
+              <div className="bg-yellow-100 w-fit ">
+                <h2 className="text-stone-900 text-3xl w-fit ">
+                  ATK:{e[Object.keys(e)[0]].attack}
+                </h2>
+                <h2 className="text-stone-900 text-3xl w-fit">
+                  DEF:{e[Object.keys(e)[0]].defense}
+                </h2>
+              </div>
+            </div>
+          </>
+        ))}
+      </div>
     </>
   );
 }
