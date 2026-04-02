@@ -94,12 +94,12 @@ function Game() {
               <h1 className="text-amber-200 text-3xl bg-yellow-700 text-center rounded-xl">
                 {Object.keys(e)[0].toLocaleUpperCase()}
               </h1>
-              <div className="bg-yellow-100 w-fit ">
-                <h2 className="text-stone-900 text-3xl w-fit ">
-                  ATK:{e[Object.keys(e)[0]].attack}
+              <div className="bg-yellow-100 w-40 flex items-center flex-col">
+                <h2 className="text-stone-900 text-3xl w-fit">
+                  ATK: {e[Object.keys(e)[0]].attack}
                 </h2>
                 <h2 className="text-stone-900 text-3xl w-fit">
-                  DEF:{e[Object.keys(e)[0]].defense}
+                  DEF: {e[Object.keys(e)[0]].defense}
                 </h2>
               </div>
             </div>
