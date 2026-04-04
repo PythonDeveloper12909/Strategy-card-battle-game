@@ -91,34 +91,79 @@ function Game() {
   useEffect(() => {
     call_enemy();
   }, [enemy_hand]);
-
+  const [activecard, setActivecard] = useState(null);
   return (
     <>
-      <div className="flex items-end gap-5">
-        <div>
-          {player_hand.map((e) => (
-            <>
-              <div className="card w-50 border-amber-500 flex flex-col items-center border-5">
-                <img src={e[Object.keys(e)[0]].img} className="w-60 h-31" />
-                <h1 className="text-amber-200 text-3xl bg-yellow-700 text-center rounded-xl">
-                  {Object.keys(e)[0].toLocaleUpperCase()}
-                </h1>
-                <div className="bg-yellow-100 w-40 flex items-center flex-col">
-                  <h2 className="text-stone-900 text-3xl w-fit">
-                    ATK: {e[Object.keys(e)[0]].attack}
-                  </h2>
-                  <h2 className="text-stone-900 text-3xl w-fit">
-                    DEF: {e[Object.keys(e)[0]].defense}
-                  </h2>
+      <div className="player_side flex items-center gap-6">
+        <div className="flex items-end gap-2">
+          <div>
+            {player_hand.map((e) => (
+              <>
+                <div
+                  className="card w-50 border-amber-500 flex flex-col items-center border-5"
+                  onClick={() => setActivecard(e)}
+                >
+                  <img src={e[Object.keys(e)[0]].img} className="w-60 h-26" />
+                  <h1 className="text-amber-200 text-2xl bg-yellow-700 text-center rounded-xl">
+                    {Object.keys(e)[0].toLocaleUpperCase()}
+                  </h1>
+                  <div className="bg-yellow-100 w-40 flex items-center flex-col">
+                    <h2 className="text-stone-900 text-2xl w-fit">
+                      ATK: {e[Object.keys(e)[0]].attack}
+                    </h2>
+                    <h2 className="text-stone-900 text-2xl w-fit">
+                      DEF: {e[Object.keys(e)[0]].defense}
+                    </h2>
+                  </div>
+                  {/* <div className="flex items-center text-white text-3xl h-fit">
+                    HP:
+                    <div className="rounded-2xl border-black w-50 h-5 bg-red-500"></div>
+                  </div> */}
+                  <h1 className="text-white text-2xl">
+                    HP:{e[Object.keys(e)[0]].hp}
+                  </h1>
                 </div>
-              </div>
-            </>
-          ))}
+              </>
+            ))}
+          </div>
+          <div className="flex flex-col-reverse">
+            <div className="card_deck w-50 border-amber-500 flex items-center flex-col justify-center border-5 text-5xl h-60">
+              ⭐
+            </div>
+            <h1 className="text-white text-3xl text-center">PLAYER DECK</h1>
+          </div>
         </div>
-        <div className="card_deck w-50 border-amber-500 flex items-center flex-col justify-center border-5 text-5xl h-61 ">
-          ⭐
-        </div>
+
+        {activecard !== null && (
+          <div className="card w-50 border-amber-500 flex items-center flex-col justify-center border-5  ">
+            <img
+              src={activecard[Object.keys(activecard)[0]].img}
+              className="w-60 h-31"
+            />
+            <h1 className="text-amber-200 text-2xl bg-yellow-700 text-center rounded-xl">
+              {Object.keys(activecard)[0].toLocaleUpperCase()}
+            </h1>
+            <div className="bg-yellow-100 w-40 flex items-center flex-col">
+              <h2 className="text-stone-900 text-2xl w-fit">
+                ATK:
+                {activecard[Object.keys(activecard)[0]].attack}
+              </h2>
+              <h2 className="text-stone-900 text-2xl w-fit">
+                DEF:
+                {activecard[Object.keys(activecard)[0]].defense}
+              </h2>
+            </div>
+            {/* <div className="flex items-center text-white text-3xl h-fit">
+              HP:
+              <div className="rounded-2xl border-black w-50 h-5 bg-red-500"></div>
+            </div> */}
+            <h1 className="text-white text-2xl">
+              HP:{activecard[Object.keys(activecard)[0]].hp}
+            </h1>
+          </div>
+        )}
       </div>
+      <hr className="w-100 m-0 auto white border-white border-5 " />
     </>
   );
 }
